@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'support/services/injector/injector.dart';
+
 void main() {
+  injector.registerModules();
   runApp(const MyApp());
 }
 
