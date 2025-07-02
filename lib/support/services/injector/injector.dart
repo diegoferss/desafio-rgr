@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import '../../../data/di/data_module.dart';
 import 'app_module.dart';
 
 abstract class InjectorProtocol {
@@ -42,7 +43,9 @@ class Injector implements InjectorProtocol {
 
   @override
   void registerModules() {
-    final modules = <AppModule>[];
+    final modules = <AppModule>[
+      DataModule(),
+    ];
 
     for (final module in modules) {
       module.registerDependencies();
