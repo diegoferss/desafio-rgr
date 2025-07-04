@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+abstract class AppRoutes {
+  List<RouteBase> get routes;
+}
+
 class MobileRouter {
   static const String initialRoute = '/';
 
