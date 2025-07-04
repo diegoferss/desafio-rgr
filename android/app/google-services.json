@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386603909463",
+    "project_id": "teste-rgr-503da",
+    "storage_bucket": "teste-rgr-503da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386603909463:android:24d263376a7316fec5be12",
+        "android_client_info": {
+          "package_name": "com.example.rgr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtOKOnPIUTCi1goEznuFAWrEzrMUOBBZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
