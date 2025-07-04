@@ -1,0 +1,19 @@
+{
+  "dart.lineLength": 120,
+  "git.confirmSync": false,
+  "dart.debugSdkLibraries": false,
+  "debug.openDebug": "openOnDebugBreak",
+  "dart.debugExternalPackageLibraries": false,
+  "[dart]": {
+    "editor.tabSize": 2,
+    "editor.rulers": [80, 120],
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.suggestSelection": "first",
+    "editor.selectionHighlight": false,
+    "editor.wordBasedSuggestions": false,
+    "editor.tabCompletion": "onlySnippets",
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.codeActionsOnSave": {"source.fixAll": true, "source.organizeImports": true}
+  },
+}
