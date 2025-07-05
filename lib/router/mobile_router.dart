@@ -1,21 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../features/login/login_view.dart';
 
 abstract class AppRoutes {
   List<RouteBase> get routes;
 }
 
 class MobileRouter {
-  static const String initialRoute = '/';
+  static const String login = '/login';
 
   static final router = GoRouter(
-    initialLocation: initialRoute,
-    routes: [
-      GoRoute(
-        name: initialRoute,
-        path: initialRoute,
-        builder: (_, __) => Container(),
-      ),
-    ],
+    initialLocation: login,
+    routes: [GoRoute(name: login, path: login, builder: (_, __) => LoginView())],
   );
 }
