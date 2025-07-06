@@ -5,7 +5,10 @@ import '../../support/services/injector/injector.dart';
 import '../../support/styles/app_colors.dart';
 import '../../support/styles/app_fonts.dart';
 import 'bloc/home_bloc.dart';
+import 'bloc/home_events.dart';
 import 'bloc/home_state.dart';
+import 'components/home_section.dart';
+import 'components/service_item.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -85,107 +88,38 @@ class _HomeViewState extends State<HomeView> {
                         height: 80,
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 10,
+                          itemCount: state.services.length,
                           separatorBuilder: (_, __) => SizedBox(width: 12),
-                          itemBuilder: (_, __) {
-                            return AspectRatio(
-                              aspectRatio: 1.5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.black03,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.card_giftcard, color: AppColors.green),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      'Automóvel',
-                                      style: AppFonts.nunito(fontSize: 14, fontWeight: FontWeight.normal),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          itemBuilder: (_, index) {
+                            return ServiceItem(
+                              service: state.services[index],
+                              onTap: () {
+                                bloc.add(HomeServiceSelected(state.services[index]));
+                              },
                             );
                           },
                         ),
                       ),
                     ),
                     SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Contratos', style: AppFonts.nunito(fontSize: 24, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 40),
-                            decoration: BoxDecoration(
-                              color: AppColors.black03,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.white, width: 2),
-                                  ),
-                                  padding: EdgeInsets.all(4),
-                                  child: Icon(Icons.add, color: AppColors.white, size: 40),
-                                ),
-                                SizedBox(height: 24),
-                                Text(
-                                  'Adicione aqui membros da sua família e compartilhe os seguros com eles',
-                                  style: AppFonts.nunito(fontSize: 16, fontWeight: FontWeight.normal),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    HomeSection(
+                      title: 'Contratos',
+                      description: 'Adicione aqui membros da sua família e compartilhe os seguros com eles',
+                      icon: Icons.add,
+                      onTap: () {
+                        bloc.add(HomeAddContractSelected());
+                      },
                     ),
                     SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Contratados', style: AppFonts.nunito(fontSize: 24, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 16),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 40),
-                            decoration: BoxDecoration(
-                              color: AppColors.black03,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.white, width: 2),
-                                  ),
-                                  padding: EdgeInsets.all(4),
-                                  child: Icon(Icons.person, color: AppColors.white, size: 40),
-                                ),
-                                SizedBox(height: 24),
-                                Text(
-                                  'Você ainda não possui seguros contratados',
-                                  style: AppFonts.nunito(fontSize: 16, fontWeight: FontWeight.normal),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                    HomeSection(
+                      title: 'Contratados',
+                      description: 'Você ainda não possui seguros contratados',
+                      icon: Icons.person,
+                      onTap: () {
+                        bloc.add(HomeContractorsSelected());
+                      },
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
               ],
