@@ -73,7 +73,7 @@ class _SplashViewState extends State<SplashView> {
     if (isLoggedIn) {
       context.goNamed(MobileRouter.home);
     } else {
-      context.goNamed(MobileRouter.login);
+      context.goNamed(MobileRouter.auth);
     }
   }
 }

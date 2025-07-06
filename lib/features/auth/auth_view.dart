@@ -10,23 +10,23 @@ import '../../support/enums/form_submission_status.dart';
 import '../../support/services/injector/injector.dart';
 import '../../support/styles/app_fonts.dart';
 import '../../support/styles/svg_asset.dart';
-import 'bloc/login_bloc.dart';
+import 'bloc/auth_bloc.dart';
 import 'components/auth_button.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class AuthView extends StatefulWidget {
+  const AuthView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<AuthView> createState() => _AuthViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  final bloc = injector.get<LoginBloc>();
+class _AuthViewState extends State<AuthView> {
+  final bloc = injector.get<AuthBloc>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<LoginBloc, LoginState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         bloc: bloc,
         listener: _viewStateListener,
         listenWhen: (previous, current) => previous.status != current.status,
@@ -111,17 +111,17 @@ class _LoginViewState extends State<LoginView> {
                                               children: [
                                                 AuthButton(
                                                   text: 'Entrar',
-                                                  isSelected: state.loginForm == LoginForm.login,
+                                                  isSelected: state.loginForm == AuthForm.login,
                                                   onTap: () {
-                                                    bloc.add(LoginFormChanged(loginForm: LoginForm.login));
+                                                    bloc.add(LoginFormChanged(loginForm: AuthForm.login));
                                                   },
                                                 ),
                                                 SizedBox(width: 16),
                                                 AuthButton(
                                                   text: 'Cadastrar',
-                                                  isSelected: state.loginForm == LoginForm.register,
+                                                  isSelected: state.loginForm == AuthForm.register,
                                                   onTap: () {
-                                                    bloc.add(LoginFormChanged(loginForm: LoginForm.register));
+                                                    bloc.add(LoginFormChanged(loginForm: AuthForm.register));
                                                   },
                                                 ),
                                               ],
@@ -163,7 +163,7 @@ class _LoginViewState extends State<LoginView> {
                                                 bloc.add(LoginPasswordChanged(password: value));
                                               },
                                             ),
-                                            if (state.loginForm == LoginForm.register) ...[
+                                            if (state.loginForm == AuthForm.register) ...[
                                               SizedBox(height: 8),
                                               TextFormField(
                                                 style: AppFonts.nunito(fontSize: 18),
@@ -298,7 +298,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  void _viewStateListener(BuildContext context, LoginState state) {
+  void _viewStateListener(BuildContext context, AuthState state) {
     final _ = switch (state.status) {
       FormSubmissionStatus.success => context.goNamed(MobileRouter.home),
       FormSubmissionStatus.initial => null,

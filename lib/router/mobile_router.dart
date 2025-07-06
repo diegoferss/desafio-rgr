@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/login/login_view.dart';
+import '../features/auth/auth_view.dart';
 import '../features/splash/splash_view.dart';
 
 abstract class AppRoutes {
@@ -9,7 +9,7 @@ abstract class AppRoutes {
 }
 
 class MobileRouter {
-  static const String login = '/login';
+  static const String auth = '/auth';
   static const String home = '/home';
   static const String splash = '/splash';
 
@@ -18,7 +18,7 @@ class MobileRouter {
     routes: [
       GoRoute(name: splash, path: splash, builder: (_, __) => SplashView()),
 
-      GoRoute(name: login, path: login, builder: (_, __) => LoginView()),
+      GoRoute(name: auth, path: auth, builder: (_, __) => AuthView()),
       GoRoute(
         name: home,
         path: home,

@@ -1,9 +1,9 @@
-part of 'login_bloc.dart';
+part of 'auth_bloc.dart';
 
-enum LoginForm { login, register }
+enum AuthForm { login, register }
 
-class LoginState {
-  final LoginForm loginForm;
+class AuthState {
+  final AuthForm loginForm;
   final FormSubmissionStatus status;
   final bool rememberPassword;
   final EmailInput email;
@@ -11,8 +11,8 @@ class LoginState {
   final ConfirmPasswordInput confirmPassword;
   final ErrorType? errorType;
 
-  LoginState({
-    this.loginForm = LoginForm.login,
+  AuthState({
+    this.loginForm = AuthForm.login,
     this.status = FormSubmissionStatus.initial,
     this.rememberPassword = false,
     this.email = const EmailInput.pure(''),
@@ -21,8 +21,8 @@ class LoginState {
     this.errorType,
   });
 
-  LoginState copyWith({
-    LoginForm? loginForm,
+  AuthState copyWith({
+    AuthForm? loginForm,
     FormSubmissionStatus? status,
     bool? rememberPassword,
     EmailInput? cpf,
@@ -30,7 +30,7 @@ class LoginState {
     ConfirmPasswordInput? confirmPassword,
     ErrorType? errorType,
   }) {
-    return LoginState(
+    return AuthState(
       loginForm: loginForm ?? this.loginForm,
       status: status ?? this.status,
       rememberPassword: rememberPassword ?? this.rememberPassword,
@@ -42,7 +42,7 @@ class LoginState {
   }
 
   bool get isFormValid {
-    return Formz.validate([email, password, if (loginForm == LoginForm.register) confirmPassword]);
+    return Formz.validate([email, password, if (loginForm == AuthForm.register) confirmPassword]);
   }
 
   bool get canSubmit {
