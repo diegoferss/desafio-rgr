@@ -7,11 +7,13 @@ import 'l10n/app_localizations.dart';
 import 'l10n/localize.dart';
 import 'router/mobile_router.dart';
 import 'support/services/injector/injector.dart';
+import 'support/services/secure_cache_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   injector.registerModules();
+  await injector.get<CacheManager>().initialize();
   runApp(const MyApp());
 }
 

@@ -7,10 +7,8 @@ import 'injector.dart';
 class CommonModule extends AppModule {
   @override
   void registerDependencies() {
-    injector.registerSingleton<SecureCacheManager>(SecureCacheManagerImpl());
-    injector.registerSingleton<SessionManager>(
-      SessionManagerImpl(secureCacheManager: injector.get<SecureCacheManager>()),
-    );
+    injector.registerSingleton<CacheManager>(CacheManagerImpl());
+    injector.registerSingleton<SessionManager>(SessionManagerImpl(secureCacheManager: injector.get<CacheManager>()));
     injector.registerSingleton<UrlLauncher>(UrlLauncherImpl());
   }
 }

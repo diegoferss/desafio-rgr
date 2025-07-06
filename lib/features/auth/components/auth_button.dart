@@ -14,20 +14,14 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: IntrinsicWidth(
-        child: Column(
-          children: [
-            Text(
-              text,
-              style: AppFonts.nunito(fontSize: 21).copyWith(
-                shadows: [Shadow(color: isSelected ? AppColors.green : AppColors.white, offset: Offset(0, -5))],
-                color: Colors.transparent,
-                decoration: TextDecoration.underline,
-                decorationColor: isSelected ? AppColors.green : Colors.transparent,
-                decorationThickness: 4,
-              ),
-            ),
-          ],
+      child: Text(
+        text,
+        style: AppFonts.nunito(fontSize: 21).copyWith(
+          shadows: [Shadow(color: isSelected ? AppColors.green : AppColors.white, offset: Offset(0, -5))],
+          color: Colors.transparent,
+          decoration: TextDecoration.underline,
+          decorationColor: isSelected ? AppColors.green : Colors.transparent,
+          decorationThickness: 4,
         ),
       ),
     );
