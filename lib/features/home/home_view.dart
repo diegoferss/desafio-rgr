@@ -87,6 +87,7 @@ class _HomeViewState extends State<HomeView> {
                       child: SizedBox(
                         height: 80,
                         child: ListView.separated(
+                          padding: EdgeInsets.only(right: 24),
                           scrollDirection: Axis.horizontal,
                           itemCount: state.services.length,
                           separatorBuilder: (_, __) => SizedBox(width: 12),

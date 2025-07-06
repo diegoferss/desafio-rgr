@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 
 enum Services {
   automobile(Icons.card_giftcard),
-  health(Icons.health_and_safety),
   home(Icons.home),
-  life(Icons.person),
-  travel(Icons.card_giftcard),
-  pet(Icons.pets),
-  disability(Icons.accessibility),
-  funeral(Icons.card_giftcard);
+  health(Icons.health_and_safety),
+  personal_accident(Icons.person);
 
   final IconData icon;
 
@@ -19,11 +15,7 @@ enum Services {
       automobile => 'Automóvel',
       health => 'Saúde',
       home => 'Casa',
-      life => 'Vida',
-      travel => 'Viagem',
-      pet => 'Pet',
-      disability => 'Invalidez',
-      funeral => 'Funeral',
+      personal_accident => 'Acidente Pessoal',
     };
   }
 }
