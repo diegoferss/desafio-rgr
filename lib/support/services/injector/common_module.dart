@@ -1,5 +1,6 @@
 import '../secure_cache_manager.dart';
 import '../session_manager.dart';
+import '../url_launcher.dart';
 import 'app_module.dart';
 import 'injector.dart';
 
@@ -10,5 +11,6 @@ class CommonModule extends AppModule {
     injector.registerSingleton<SessionManager>(
       SessionManagerImpl(secureCacheManager: injector.get<SecureCacheManager>()),
     );
+    injector.registerSingleton<UrlLauncher>(UrlLauncherImpl());
   }
 }

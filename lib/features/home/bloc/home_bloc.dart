@@ -1,16 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../support/enums/services.dart';
 import '../../../support/services/session_manager.dart';
+import '../../../support/services/url_launcher.dart';
 import 'home_events.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvents, HomeState> {
   final SessionManager sessionManager;
+  final UrlLauncher urlLauncher;
 
-  HomeBloc({required this.sessionManager}) : super(HomeState(user: sessionManager.user!)) {
+  HomeBloc({required this.sessionManager, required this.urlLauncher}) : super(HomeState(user: sessionManager.user!)) {
     on<HomeServiceSelected>(_onHomeServiceSelected);
     on<HomeAddContractSelected>(_onHomeAddContractSelected);
     on<HomeContractorsSelected>(_onHomeContractorsSelected);
@@ -21,7 +24,11 @@ class HomeBloc extends Bloc<HomeEvents, HomeState> {
   FutureOr<void> _onHomeServiceSelected(HomeServiceSelected event, Emitter<HomeState> emit) {
     switch (event.service) {
       case Services.automobile:
-        emit(state.copyWith(selectedService: event.service));
+        if (kIsWeb) {
+          urlLauncher.redirectUrl(url: 'https://www.google.com');
+        } else {
+          emit(state.copyWith(selectedService: event.service));
+        }
         break;
       default:
         break;
