@@ -2,7 +2,9 @@ import 'package:get_it/get_it.dart';
 
 import '../../../data/di/data_module.dart';
 import '../../../features/login/di/login_module.dart';
+import '../../../features/splash/di/splash_module.dart';
 import 'app_module.dart';
+import 'common_module.dart';
 
 abstract class InjectorProtocol {
   T get<T extends Object>({dynamic param1, dynamic param2});
@@ -20,7 +22,7 @@ class Injector implements InjectorProtocol {
   T get<T extends Object>({dynamic param1, dynamic param2}) {
     return _getIt.get<T>(param1: param1, param2: param2);
   }
-  
+
   @override
   void registerFactory<T extends Object>(T Function() factory) {
     _getIt.registerFactory<T>(factory);
@@ -35,7 +37,6 @@ class Injector implements InjectorProtocol {
   void registerSingleton<T extends Object>(T instance) {
     _getIt.registerSingleton<T>(instance);
   }
-  
 
   @override
   void registerLazySingleton<T extends Object>(T Function() factory) {
@@ -44,10 +45,7 @@ class Injector implements InjectorProtocol {
 
   @override
   void registerModules() {
-    final modules = <AppModule>[
-      DataModule(),
-      LoginModule(),
-    ];
+    final modules = <AppModule>[CommonModule(), DataModule(), SplashModule(), LoginModule()];
 
     for (final module in modules) {
       module.registerDependencies();
