@@ -80,9 +80,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
         emit(state.copyWith(errorType: error.errorType, status: FormSubmissionStatus.failure));
       },
       (user) async {
-        if (state.rememberPassword) {
-          await sessionManager.saveSession(user);
-        }
+        await sessionManager.saveSession(user, state.rememberPassword);
 
         emit(state.copyWith(status: FormSubmissionStatus.success));
       },

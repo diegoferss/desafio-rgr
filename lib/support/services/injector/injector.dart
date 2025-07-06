@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../data/di/data_module.dart';
 import '../../../features/auth/di/auth_module.dart';
+import '../../../features/home/di/home_module.dart';
 import '../../../features/splash/di/splash_module.dart';
 import 'app_module.dart';
 import 'common_module.dart';
@@ -45,7 +46,7 @@ class Injector implements InjectorProtocol {
 
   @override
   void registerModules() {
-    final modules = <AppModule>[CommonModule(), DataModule(), SplashModule(), AuthModule()];
+    final modules = <AppModule>[CommonModule(), DataModule(), SplashModule(), AuthModule(), HomeModule()];
 
     for (final module in modules) {
       module.registerDependencies();

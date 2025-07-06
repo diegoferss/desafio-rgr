@@ -10,6 +10,6 @@ class UserAdapter {
 
     if (user == null) return null;
 
-    return User(id: user.uid, name: user.displayName ?? '', document: user.email ?? '');
+    return User(id: user.uid, name: user.displayName ?? '', email: user.email ?? '');
   }
 }
