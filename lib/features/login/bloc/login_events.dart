@@ -22,4 +22,10 @@ class LoginPasswordChanged extends LoginEvents {
   LoginPasswordChanged({required this.password});
 }
 
+class LoginConfirmPasswordChanged extends LoginEvents {
+  final String confirmPassword;
+
+  LoginConfirmPasswordChanged({required this.confirmPassword});
+}
+
 class LoginSubmitted extends LoginEvents {}

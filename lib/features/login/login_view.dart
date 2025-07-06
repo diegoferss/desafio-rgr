@@ -177,8 +177,11 @@ class _LoginViewState extends State<LoginView> {
                                                     borderRadius: BorderRadius.circular(40),
                                                     borderSide: BorderSide(color: AppColors.white),
                                                   ),
-                                                  errorText: null,
+                                                  errorText: state.confirmPassword.displayError?.getErrorMessage(),
                                                 ),
+                                                onChanged: (value) {
+                                                  bloc.add(LoginConfirmPasswordChanged(confirmPassword: value));
+                                                },
                                               ),
                                             ],
                                             SizedBox(height: 24),

@@ -8,6 +8,7 @@ class LoginState {
   final bool rememberPassword;
   final EmailInput email;
   final PasswordInput password;
+  final ConfirmPasswordInput confirmPassword;
   final ErrorType? errorType;
 
   LoginState({
@@ -16,6 +17,7 @@ class LoginState {
     this.rememberPassword = false,
     this.email = const EmailInput.pure(''),
     this.password = const PasswordInput.pure(''),
+    this.confirmPassword = const ConfirmPasswordInput.pure(password: ''),
     this.errorType,
   });
 
@@ -25,6 +27,7 @@ class LoginState {
     bool? rememberPassword,
     EmailInput? cpf,
     PasswordInput? password,
+    ConfirmPasswordInput? confirmPassword,
     ErrorType? errorType,
   }) {
     return LoginState(
@@ -33,12 +36,13 @@ class LoginState {
       rememberPassword: rememberPassword ?? this.rememberPassword,
       email: cpf ?? email,
       password: password ?? this.password,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
       errorType: errorType ?? this.errorType,
     );
   }
 
   bool get isFormValid {
-    return Formz.validate([email, password]);
+    return Formz.validate([email, password, if (loginForm == LoginForm.register) confirmPassword]);
   }
 
   bool get canSubmit {

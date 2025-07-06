@@ -9,6 +9,7 @@ import 'package:rgr/support/inputs/password_input.dart';
 import '../../../dto/user_dto.dart';
 import '../../../support/enums/form_submission_status.dart';
 import '../../../support/exceptions/app_exception.dart';
+import '../../../support/inputs/confirm_password_input.dart';
 import '../../../support/services/session_manager.dart';
 import '../use_cases/login_with_document_and_password.dart';
 
@@ -29,6 +30,7 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
     on<LoginRememberPasswordChanged>(_onLoginRememberPasswordChanged);
     on<LoginCPFChanged>(_onLoginCPFChanged);
     on<LoginPasswordChanged>(_onLoginPasswordChanged);
+    on<LoginConfirmPasswordChanged>(_onLoginConfirmPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
   }
 
@@ -45,7 +47,22 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
   }
 
   FutureOr<void> _onLoginPasswordChanged(LoginPasswordChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(password: PasswordInput.dirty(value: event.password)));
+    emit(
+      state.copyWith(
+        password: PasswordInput.dirty(value: event.password),
+        confirmPassword: state.confirmPassword.isPure
+            ? null
+            : ConfirmPasswordInput.dirty(password: event.password, value: state.confirmPassword.value),
+      ),
+    );
+  }
+
+  FutureOr<void> _onLoginConfirmPasswordChanged(LoginConfirmPasswordChanged event, Emitter<LoginState> emit) {
+    emit(
+      state.copyWith(
+        confirmPassword: ConfirmPasswordInput.dirty(value: event.confirmPassword, password: state.password.value),
+      ),
+    );
   }
 
   FutureOr<void> _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
