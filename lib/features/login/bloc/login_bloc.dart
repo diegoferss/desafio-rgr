@@ -9,6 +9,7 @@ import 'package:rgr/support/inputs/password_input.dart';
 import '../../../dto/user_dto.dart';
 import '../../../support/enums/form_submission_status.dart';
 import '../../../support/exceptions/app_exception.dart';
+import '../../../support/services/session_manager.dart';
 import '../use_cases/login_with_document_and_password.dart';
 
 part 'login_events.dart';
@@ -17,8 +18,13 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvents, LoginState> {
   final LoginUserWithDocumentAndPassword loginUserWithDocumentAndPassword;
   final CreateUserWithEmailAndPassword createUserWithEmailAndPassword;
-  LoginBloc({required this.loginUserWithDocumentAndPassword, required this.createUserWithEmailAndPassword})
-    : super(LoginState()) {
+  final SessionManager sessionManager;
+
+  LoginBloc({
+    required this.loginUserWithDocumentAndPassword,
+    required this.createUserWithEmailAndPassword,
+    required this.sessionManager,
+  }) : super(LoginState()) {
     on<LoginFormChanged>(_onLoginFormChanged);
     on<LoginRememberPasswordChanged>(_onLoginRememberPasswordChanged);
     on<LoginCPFChanged>(_onLoginCPFChanged);
@@ -52,12 +58,15 @@ class LoginBloc extends Bloc<LoginEvents, LoginState> {
       LoginForm.register => createUserWithEmailAndPassword(userDTO),
     };
 
-    result.fold(
+    await result.fold(
       (error) {
         emit(state.copyWith(errorType: error.errorType, status: FormSubmissionStatus.failure));
       },
-      (user) {
-        // TODO: Salvar sessão
+      (user) async {
+        if (state.rememberPassword) {
+          await sessionManager.saveSession(user);
+        }
+
         emit(state.copyWith(status: FormSubmissionStatus.success));
       },
     );
