@@ -1,28 +1,34 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum CacheKey { session }
 
-abstract class SecureCacheManager {
-  Future<void> write({required CacheKey key, required String value});
-  Future<String?> read({required CacheKey key});
+abstract class CacheManager {
+  Future<void> initialize();
+  String? readString({required CacheKey key});
+  Future<void> saveString({required CacheKey key, required String value});
   Future<void> delete({required CacheKey key});
 }
 
-class SecureCacheManagerImpl implements SecureCacheManager {
-  final _secureStorage = FlutterSecureStorage();
+class CacheManagerImpl extends CacheManager {
+  late final SharedPreferences _sharedPreferences;
 
   @override
-  Future<void> write({required CacheKey key, required String value}) async {
-    await _secureStorage.write(key: key.name, value: value);
+  Future<void> initialize() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
   }
 
   @override
-  Future<String?> read({required CacheKey key}) async {
-    return await _secureStorage.read(key: key.name);
+  String? readString({required CacheKey key}) {
+    return _sharedPreferences.getString(key.name);
+  }
+
+  @override
+  Future<void> saveString({required CacheKey key, required String value}) async {
+    await _sharedPreferences.setString(key.name, value);
   }
 
   @override
   Future<void> delete({required CacheKey key}) async {
-    await _secureStorage.delete(key: key.name);
+    await _sharedPreferences.remove(key.name);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import '../../models/user.dart';
 import 'secure_cache_manager.dart';
 
@@ -5,12 +7,12 @@ abstract class SessionManager {
   User? get user;
   bool get hasSession;
   Future<void> saveSession(User user, bool rememberPassword);
-  Future<void> loadSession();
+  FutureOr<void> loadSession();
   Future<void> deleteSession();
 }
 
 class SessionManagerImpl implements SessionManager {
-  final SecureCacheManager secureCacheManager;
+  final CacheManager secureCacheManager;
 
   SessionManagerImpl({required this.secureCacheManager});
 
@@ -25,12 +27,12 @@ class SessionManagerImpl implements SessionManager {
   @override
   Future<void> saveSession(User user, bool rememberPassword) async {
     _user = user;
-    await secureCacheManager.write(key: CacheKey.session, value: user.json);
+    await secureCacheManager.saveString(key: CacheKey.session, value: user.json);
   }
 
   @override
-  Future<void> loadSession() async {
-    final data = await secureCacheManager.read(key: CacheKey.session);
+  FutureOr<void> loadSession() {
+    final data = secureCacheManager.readString(key: CacheKey.session);
 
     _user = User.fromJson(data);
   }

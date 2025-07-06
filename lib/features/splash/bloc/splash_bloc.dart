@@ -14,7 +14,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
 
   FutureOr<void> _onSplashSessionVerifyRequested(SplashSessionVerifyRequested event, Emitter<SplashState> emit) async {
-    /* await sessionManager.loadSession(); */
+    await sessionManager.loadSession();
 
     emit(SplashSessionVerified(isLoggedIn: sessionManager.hasSession));
   }
