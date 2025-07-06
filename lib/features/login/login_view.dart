@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rgr/support/styles/app_colors.dart';
 
+import '../../router/mobile_router.dart';
+import '../../support/components/error_dialog.dart';
+import '../../support/components/svg_viewer.dart';
+import '../../support/enums/form_submission_status.dart';
 import '../../support/services/injector/injector.dart';
 import '../../support/styles/app_fonts.dart';
+import '../../support/styles/svg_asset.dart';
 import 'bloc/login_bloc.dart';
 import 'components/auth_button.dart';
 
@@ -22,7 +28,8 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       body: BlocConsumer<LoginBloc, LoginState>(
         bloc: bloc,
-        listener: (_, state) {},
+        listener: _viewStateListener,
+        listenWhen: (previous, current) => previous.status != current.status,
         builder: (_, state) {
           return CustomScrollView(
             slivers: [
@@ -121,16 +128,17 @@ class _LoginViewState extends State<LoginView> {
                                             ),
                                             SizedBox(height: 32),
                                             TextFormField(
+                                              enabled: state.status != FormSubmissionStatus.inProgress,
                                               obscureText: false,
                                               style: AppFonts.nunito(fontSize: 18),
                                               decoration: InputDecoration(
-                                                label: Text('CPF', style: AppFonts.nunito(fontSize: 18)),
+                                                label: Text('Email', style: AppFonts.nunito(fontSize: 18)),
                                                 contentPadding: EdgeInsets.all(16),
                                                 border: OutlineInputBorder(
                                                   borderRadius: BorderRadius.circular(40),
                                                   borderSide: BorderSide(color: AppColors.white),
                                                 ),
-                                                errorText: state.cpf.displayError?.getErrorMessage(),
+                                                errorText: state.email.displayError?.getErrorMessage(),
                                               ),
                                               onChanged: (value) {
                                                 bloc.add(LoginCPFChanged(cpf: value));
@@ -138,6 +146,7 @@ class _LoginViewState extends State<LoginView> {
                                             ),
                                             SizedBox(height: 8),
                                             TextFormField(
+                                              enabled: state.status != FormSubmissionStatus.inProgress,
                                               obscureText: true,
                                               style: AppFonts.nunito(fontSize: 18),
 
@@ -158,6 +167,7 @@ class _LoginViewState extends State<LoginView> {
                                               SizedBox(height: 8),
                                               TextFormField(
                                                 style: AppFonts.nunito(fontSize: 18),
+                                                enabled: state.status != FormSubmissionStatus.inProgress,
 
                                                 obscureText: true,
                                                 decoration: InputDecoration(
@@ -216,16 +226,25 @@ class _LoginViewState extends State<LoginView> {
                                           height: 84,
                                           padding: EdgeInsets.all(12),
                                           decoration: BoxDecoration(color: AppColors.black03, shape: BoxShape.circle),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              gradient: LinearGradient(
-                                                colors: [AppColors.green, AppColors.yellow],
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
+                                          child: GestureDetector(
+                                            onTap: state.canSubmit
+                                                ? () {
+                                                    bloc.add(LoginSubmitted());
+                                                  }
+                                                : null,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                gradient: LinearGradient(
+                                                  colors: [AppColors.green, AppColors.yellow],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                ),
                                               ),
+                                              child: state.status == FormSubmissionStatus.inProgress
+                                                  ? Center(child: CircularProgressIndicator(color: AppColors.white))
+                                                  : Icon(Icons.arrow_forward),
                                             ),
-                                            child: Icon(Icons.arrow_forward),
                                           ),
                                         ),
                                       ),
@@ -246,11 +265,16 @@ class _LoginViewState extends State<LoginView> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.facebook, color: AppColors.white),
+                                      SvgViewer(
+                                        asset: SvgAsset.icGoogle,
+                                        color: AppColors.white,
+                                        height: 24,
+                                        width: 24,
+                                      ),
                                       SizedBox(width: 16),
                                       Icon(Icons.facebook, color: AppColors.white),
                                       SizedBox(width: 16),
-                                      Icon(Icons.facebook, color: AppColors.white),
+                                      SvgViewer(asset: SvgAsset.icApple, color: AppColors.white, height: 24, width: 24),
                                     ],
                                   ),
                                 ],
@@ -269,5 +293,20 @@ class _LoginViewState extends State<LoginView> {
         },
       ),
     );
+  }
+
+  void _viewStateListener(BuildContext context, LoginState state) {
+    final _ = switch (state.status) {
+      FormSubmissionStatus.success => context.goNamed(MobileRouter.home),
+      FormSubmissionStatus.initial => null,
+      FormSubmissionStatus.inProgress => null,
+      FormSubmissionStatus.failure => showDialog(
+        context: context,
+        builder: (_) {
+          return ErrorDialog(error: state.errorType);
+        },
+      ),
+      FormSubmissionStatus.canceled => null,
+    };
   }
 }
