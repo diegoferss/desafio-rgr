@@ -13,6 +13,7 @@ class HomeBloc extends Bloc<HomeEvents, HomeState> {
     on<HomeServiceSelected>(_onHomeServiceSelected);
     on<HomeAddContractSelected>(_onHomeAddContractSelected);
     on<HomeContractorsSelected>(_onHomeContractorsSelected);
+    on<HomeDrawerItemSelected>(_onHomeDrawerItemSelected);
   }
 
   FutureOr<void> _onHomeServiceSelected(HomeServiceSelected event, Emitter<HomeState> emit) {
@@ -25,5 +26,9 @@ class HomeBloc extends Bloc<HomeEvents, HomeState> {
 
   FutureOr<void> _onHomeContractorsSelected(HomeContractorsSelected event, Emitter<HomeState> emit) {
     // TODO: Implementar a lógica para selecionar os contratados
+  }
+
+  FutureOr<void> _onHomeDrawerItemSelected(HomeDrawerItemSelected event, Emitter<HomeState> emit) {
+    // TODO: Implementar a lógica para selecionar o item do drawer
   }
 }

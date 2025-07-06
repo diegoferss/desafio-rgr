@@ -7,6 +7,7 @@ import '../../support/styles/app_fonts.dart';
 import 'bloc/home_bloc.dart';
 import 'bloc/home_events.dart';
 import 'bloc/home_state.dart';
+import 'components/home_drawer.dart';
 import 'components/home_section.dart';
 import 'components/service_item.dart';
 
@@ -22,26 +23,32 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.black02,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.white),
-        backgroundColor: AppColors.black02,
-        title: Text('EMPRESA', style: AppFonts.nunito(fontSize: 24, fontWeight: FontWeight.w600)),
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: Icon(Icons.notifications, color: AppColors.white),
+    return BlocConsumer<HomeBloc, HomeState>(
+      bloc: bloc,
+      listener: (context, state) {},
+      builder: (_, state) {
+        return Scaffold(
+          backgroundColor: AppColors.black02,
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: AppColors.white),
+            backgroundColor: AppColors.black02,
+            title: Text('EMPRESA', style: AppFonts.nunito(fontSize: 24, fontWeight: FontWeight.w600)),
+            centerTitle: true,
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 12),
+                child: Icon(Icons.notifications, color: AppColors.white),
+              ),
+            ],
           ),
-        ],
-      ),
-      drawer: Drawer(child: Column(children: [Text('')])),
-      body: BlocConsumer<HomeBloc, HomeState>(
-        bloc: bloc,
-        listener: (context, state) {},
-        builder: (_, state) {
-          return SingleChildScrollView(
+          drawer: HomeDrawer(
+            user: state.user,
+            items: state.drawerItems,
+            onItemTap: (item) {
+              bloc.add(HomeDrawerItemSelected(item));
+            },
+          ),
+          body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -125,9 +132,9 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
