@@ -238,20 +238,20 @@ class _AuthViewState extends State<AuthView> {
                                             left: 0,
                                             right: 0,
                                             bottom: -42,
-                                            child: Container(
-                                              width: 84,
-                                              height: 84,
-                                              padding: EdgeInsets.all(12),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.black03,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: state.canSubmit
-                                                    ? () {
-                                                        bloc.add(LoginSubmitted());
-                                                      }
-                                                    : null,
+                                            child: GestureDetector(
+                                              onTap: state.canSubmit
+                                                  ? () {
+                                                      bloc.add(LoginSubmitted());
+                                                    }
+                                                  : null,
+                                              child: Container(
+                                                width: 84,
+                                                height: 84,
+                                                padding: EdgeInsets.all(12),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.black03,
+                                                  shape: BoxShape.circle,
+                                                ),
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,

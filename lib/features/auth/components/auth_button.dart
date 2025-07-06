@@ -19,14 +19,13 @@ class AuthButton extends StatelessWidget {
           children: [
             Text(
               text,
-              style: AppFonts.nunito(
-                fontSize: 21,
-                fontColor: isSelected ? AppColors.green : AppColors.white,
-              ).copyWith(decoration: TextDecoration.underline),
-            ),
-            Visibility(
-              visible: isSelected,
-              child: Container(height: 1.5, color: isSelected ? AppColors.green : AppColors.white),
+              style: AppFonts.nunito(fontSize: 21).copyWith(
+                shadows: [Shadow(color: isSelected ? AppColors.green : AppColors.white, offset: Offset(0, -5))],
+                color: Colors.transparent,
+                decoration: TextDecoration.underline,
+                decorationColor: isSelected ? AppColors.green : Colors.transparent,
+                decorationThickness: 4,
+              ),
             ),
           ],
         ),
