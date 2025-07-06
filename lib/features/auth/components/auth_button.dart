@@ -17,7 +17,13 @@ class AuthButton extends StatelessWidget {
       child: IntrinsicWidth(
         child: Column(
           children: [
-            Text(text, style: AppFonts.nunito(fontSize: 21, fontColor: isSelected ? AppColors.green : AppColors.white)),
+            Text(
+              text,
+              style: AppFonts.nunito(
+                fontSize: 21,
+                fontColor: isSelected ? AppColors.green : AppColors.white,
+              ).copyWith(decoration: TextDecoration.underline),
+            ),
             Visibility(
               visible: isSelected,
               child: Container(height: 1.5, color: isSelected ? AppColors.green : AppColors.white),

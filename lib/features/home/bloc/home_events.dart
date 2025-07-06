@@ -18,3 +18,5 @@ class HomeDrawerItemSelected extends HomeEvents {
 
   HomeDrawerItemSelected(this.item);
 }
+
+class HomeDrawerClearItemSelected extends HomeEvents {}

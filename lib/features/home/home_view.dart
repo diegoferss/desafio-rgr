@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../router/mobile_router.dart';
+import '../../support/components/default_app_bar.dart';
+import '../../support/enums/services.dart';
 import '../../support/services/injector/injector.dart';
 import '../../support/styles/app_colors.dart';
 import '../../support/styles/app_fonts.dart';
@@ -25,22 +29,12 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: bloc,
-      listener: (context, state) {},
+      listenWhen: (previous, current) => previous.selectedService != current.selectedService,
+      listener: _viewStateListener,
       builder: (_, state) {
         return Scaffold(
           backgroundColor: AppColors.black02,
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: AppColors.white),
-            backgroundColor: AppColors.black02,
-            title: Text('EMPRESA', style: AppFonts.nunito(fontSize: 24, fontWeight: FontWeight.w600)),
-            centerTitle: true,
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(right: 12),
-                child: Icon(Icons.notifications, color: AppColors.white),
-              ),
-            ],
-          ),
+          appBar: DefaultAppBar(),
           drawer: HomeDrawer(
             user: state.user,
             items: state.drawerItems,
@@ -136,5 +130,14 @@ class _HomeViewState extends State<HomeView> {
         );
       },
     );
+  }
+
+  void _viewStateListener(BuildContext context, HomeState state) {
+    final _ = switch (state.selectedService) {
+      Services.automobile => context.pushNamed(MobileRouter.webview, extra: 'https://www.google.com').whenComplete(() {
+        bloc.add(HomeDrawerClearItemSelected());
+      }),
+      _ => null,
+    };
   }
 }
