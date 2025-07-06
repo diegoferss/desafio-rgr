@@ -9,7 +9,7 @@ class AppFonts {
   static TextStyle nunito({
     required double fontSize,
     FontWeight fontWeight = FontWeight.w400,
-    Color fontColor = AppColors.black,
+    Color fontColor = AppColors.white,
   }) {
     return GoogleFonts.nunito(fontSize: fontSize, fontWeight: fontWeight, color: fontColor);
   }
