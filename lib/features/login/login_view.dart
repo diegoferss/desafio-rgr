@@ -5,6 +5,7 @@ import 'package:rgr/support/styles/app_colors.dart';
 import '../../support/services/injector/injector.dart';
 import '../../support/styles/app_fonts.dart';
 import 'bloc/login_bloc.dart';
+import 'components/auth_button.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -101,70 +102,27 @@ class _LoginViewState extends State<LoginView> {
                                           children: [
                                             Row(
                                               children: [
-                                                GestureDetector(
+                                                AuthButton(
+                                                  text: 'Entrar',
+                                                  isSelected: state.loginForm == LoginForm.login,
                                                   onTap: () {
                                                     bloc.add(LoginFormChanged(loginForm: LoginForm.login));
                                                   },
-                                                  child: IntrinsicWidth(
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          'Entrar',
-                                                          style: AppFonts.nunito(
-                                                            fontSize: 24,
-                                                            fontColor: state.loginForm == LoginForm.login
-                                                                ? AppColors.green
-                                                                : AppColors.white,
-                                                          ),
-                                                        ),
-                                                        Visibility(
-                                                          visible: state.loginForm == LoginForm.login,
-                                                          child: Container(
-                                                            height: 1.5,
-                                                            color: state.loginForm == LoginForm.login
-                                                                ? AppColors.green
-                                                                : AppColors.white,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
                                                 ),
                                                 SizedBox(width: 16),
-                                                GestureDetector(
+                                                AuthButton(
+                                                  text: 'Cadastrar',
+                                                  isSelected: state.loginForm == LoginForm.register,
                                                   onTap: () {
                                                     bloc.add(LoginFormChanged(loginForm: LoginForm.register));
                                                   },
-                                                  child: IntrinsicWidth(
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          'Cadastrar',
-                                                          style: AppFonts.nunito(
-                                                            fontSize: 24,
-                                                            fontColor: state.loginForm == LoginForm.register
-                                                                ? AppColors.green
-                                                                : AppColors.white,
-                                                          ),
-                                                        ),
-                                                        Visibility(
-                                                          visible: state.loginForm == LoginForm.register,
-                                                          child: Container(
-                                                            height: 1.5,
-                                                            color: state.loginForm == LoginForm.register
-                                                                ? AppColors.green
-                                                                : AppColors.white,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
                                                 ),
                                               ],
                                             ),
                                             SizedBox(height: 32),
                                             TextFormField(
                                               obscureText: false,
+                                              style: AppFonts.nunito(fontSize: 18),
                                               decoration: InputDecoration(
                                                 label: Text('CPF', style: AppFonts.nunito(fontSize: 18)),
                                                 contentPadding: EdgeInsets.all(16),
@@ -172,12 +130,17 @@ class _LoginViewState extends State<LoginView> {
                                                   borderRadius: BorderRadius.circular(40),
                                                   borderSide: BorderSide(color: AppColors.white),
                                                 ),
-                                                errorText: null,
+                                                errorText: state.cpf.displayError?.getErrorMessage(),
                                               ),
+                                              onChanged: (value) {
+                                                bloc.add(LoginCPFChanged(cpf: value));
+                                              },
                                             ),
                                             SizedBox(height: 8),
                                             TextFormField(
                                               obscureText: true,
+                                              style: AppFonts.nunito(fontSize: 18),
+
                                               decoration: InputDecoration(
                                                 label: Text('Senha', style: AppFonts.nunito(fontSize: 18)),
                                                 contentPadding: EdgeInsets.all(16),
@@ -185,15 +148,42 @@ class _LoginViewState extends State<LoginView> {
                                                   borderRadius: BorderRadius.circular(40),
                                                   borderSide: BorderSide(color: AppColors.white),
                                                 ),
-                                                errorText: null,
+                                                errorText: state.password.displayError?.getErrorMessage(),
                                               ),
+                                              onChanged: (value) {
+                                                bloc.add(LoginPasswordChanged(password: value));
+                                              },
                                             ),
+                                            if (state.loginForm == LoginForm.register) ...[
+                                              SizedBox(height: 8),
+                                              TextFormField(
+                                                style: AppFonts.nunito(fontSize: 18),
+
+                                                obscureText: true,
+                                                decoration: InputDecoration(
+                                                  label: Text('Confirmar senha', style: AppFonts.nunito(fontSize: 18)),
+                                                  contentPadding: EdgeInsets.all(16),
+                                                  border: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(40),
+                                                    borderSide: BorderSide(color: AppColors.white),
+                                                  ),
+                                                  errorText: null,
+                                                ),
+                                              ),
+                                            ],
                                             SizedBox(height: 24),
                                             Row(
                                               children: [
                                                 SizedBox.square(
                                                   dimension: 24,
-                                                  child: Checkbox(value: true, onChanged: (_) {}),
+                                                  child: Checkbox(
+                                                    shape: CircleBorder(),
+                                                    activeColor: AppColors.green,
+                                                    value: state.rememberPassword,
+                                                    onChanged: (_) {
+                                                      bloc.add(LoginRememberPasswordChanged());
+                                                    },
+                                                  ),
                                                 ),
                                                 SizedBox(width: 4),
                                                 Expanded(

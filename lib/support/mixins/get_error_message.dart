@@ -1,0 +1,3 @@
+mixin GetErrorMessage {
+  String getErrorMessage();
+}
