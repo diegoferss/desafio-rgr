@@ -11,7 +11,7 @@ import '../../models/user.dart';
 typedef LoginResult = FutureOr<Either<AppException, User>>;
 
 abstract class AuthProvider {
-  LoginResult loginUserWithDocumentAndPassword(UserDTO userDTO);
+  LoginResult loginUserWithEmailAndPassword(UserDTO userDTO);
   LoginResult createUserWithEmailAndPassword(UserDTO userDTO);
 }
 
@@ -19,7 +19,7 @@ class FirebaseAuthProvider implements AuthProvider {
   final firebaseAuth = FirebaseAuth.instance;
 
   @override
-  LoginResult loginUserWithDocumentAndPassword(UserDTO userDTO) async {
+  LoginResult loginUserWithEmailAndPassword(UserDTO userDTO) async {
     try {
       final userCredentials = await firebaseAuth.signInWithEmailAndPassword(
         email: userDTO.email,
