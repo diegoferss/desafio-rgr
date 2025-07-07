@@ -4,14 +4,14 @@ import '../../../data/clients/auth_provider.dart';
 import '../../../dto/user_dto.dart';
 import '../../../support/exceptions/app_exception.dart';
 
-abstract class LoginUserWithDocumentAndPassword {
+abstract class LoginUserWithEmailAndPassword {
   LoginResult call(UserDTO userDTO);
 }
 
-class LoginUserWithDocumentAndPasswordImpl extends LoginUserWithDocumentAndPassword {
+class LoginUserWithEmailAndPasswordImpl extends LoginUserWithEmailAndPassword {
   final AuthProvider authProvider;
 
-  LoginUserWithDocumentAndPasswordImpl({required this.authProvider});
+  LoginUserWithEmailAndPasswordImpl({required this.authProvider});
 
   @override
   LoginResult call(UserDTO userDTO) async {
@@ -19,6 +19,6 @@ class LoginUserWithDocumentAndPasswordImpl extends LoginUserWithDocumentAndPassw
       return Left(AppException(errorType: ErrorType.loginError));
     }
 
-    return await authProvider.loginUserWithDocumentAndPassword(userDTO);
+    return await authProvider.loginUserWithEmailAndPassword(userDTO);
   }
 }

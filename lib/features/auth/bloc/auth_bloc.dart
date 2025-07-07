@@ -11,13 +11,13 @@ import '../../../support/enums/form_submission_status.dart';
 import '../../../support/exceptions/app_exception.dart';
 import '../../../support/inputs/confirm_password_input.dart';
 import '../../../support/services/session_manager.dart';
-import '../use_cases/login_with_document_and_password.dart';
+import '../use_cases/login_with_email_and_password.dart';
 
 part 'auth_events.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvents, AuthState> {
-  final LoginUserWithDocumentAndPassword loginUserWithDocumentAndPassword;
+  final LoginUserWithEmailAndPassword loginUserWithDocumentAndPassword;
   final CreateUserWithEmailAndPassword createUserWithEmailAndPassword;
   final SessionManager sessionManager;
 
