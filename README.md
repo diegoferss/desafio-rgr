@@ -19,6 +19,10 @@ Antes de começar, verifique se você atende aos seguintes requisitos:
 
 * Você instalou o `Flutter`.
 
+## Acesso
+
+O projeto está na Web! Você pode acessá-lo utilizando clicando [aqui!](https://teste-rgr-503da.web.app)
+
 ## Instalação
 
 Para instalar a aplicação, siga estas etapas:
